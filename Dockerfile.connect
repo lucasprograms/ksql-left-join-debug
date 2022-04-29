@@ -1,0 +1,15 @@
+ARG CP_KAFKA_CONNECT_VERSION=7.0.1
+
+FROM confluentinc/cp-kafka-connect:$CP_KAFKA_CONNECT_VERSION
+
+ENV DEBEZIUM_POSTGRES_SINK_VERSION=1.8.1
+ENV CUSTENBORDER_TRANSFORMS_VERSION=0.1.0.54
+ENV CONNECT_TRANSFORMS_VERSION=1.4.2
+
+# Postgres Source Connector
+RUN confluent-hub install --no-prompt debezium/debezium-connector-postgresql:$DEBEZIUM_POSTGRES_SINK_VERSION
+
+# Message transform libraries
+RUN confluent-hub install --no-prompt confluentinc/connect-transforms:$CONNECT_TRANSFORMS_VERSION
+RUN confluent-hub install --no-prompt jcustenborder/kafka-connect-transform-common:$CUSTENBORDER_TRANSFORMS_VERSION
+
